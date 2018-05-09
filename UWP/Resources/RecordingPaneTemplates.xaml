@@ -1,0 +1,61 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:customconverters="using:UWP.Helpers"
+    xmlns:local="using:UWP.Resources">
+    <DataTemplate x:Key="RecordingPane">
+        <Grid Padding="50">
+            <Grid.Resources>
+                <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                <customconverters:BooleanToVisibilityConverter x:Key="CustomBoolToVisibilityConverter" True="Collapsed" False="Visible"/>
+                <converters:BoolNegationConverter x:Key="BoolNegationConverter"/>
+            </Grid.Resources>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Center"
+                    x:Name="AudioLength"
+                    Text="{Binding Path=AudioController.AudioLengthString, Mode=OneWay}"
+                    FontSize="25"/>
+                <Border
+                    x:Name="RecordButton"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    CornerRadius="50"
+                    Visibility="{Binding IsRecording, Converter={StaticResource CustomBoolToVisibilityConverter}}">
+                    <Button Width="100" Height="100" Command="{Binding StartRecording_Command}">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE720;"/>
+                    </Button>                    
+                </Border>
+                <Border
+                    x:Name="StopButton"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    CornerRadius="50"
+                    Visibility="{Binding IsRecording, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Button Width="100" Height="100" Command="{Binding StopRecording_Command}">
+                        <SymbolIcon Symbol="Stop"/>
+                    </Button>
+                </Border>
+                <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Width="70" HorizontalAlignment="Center" Margin="0,0,10,0" Content="Save" Command="{Binding SaveAudio_Command}" IsEnabled="{Binding IsRecording, Converter={StaticResource BoolNegationConverter}}"/>
+                    <Button Width="70" HorizontalAlignment="Center" Margin="10,0,0,0" Content="Cancel" Command="{Binding CancelAudio_Command}"  IsEnabled="{Binding IsRecording, Converter={StaticResource BoolNegationConverter}}"/>
+                </StackPanel>                
+            </Grid>
+        </Grid>        
+    </DataTemplate>
+</ResourceDictionary>

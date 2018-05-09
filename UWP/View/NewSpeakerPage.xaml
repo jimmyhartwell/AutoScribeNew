@@ -1,0 +1,51 @@
+﻿<local:BasePage
+    x:Class="UWP.View.NewSpeakerPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWP.View"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:customconverters="using:UWP.Helpers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <local:BasePage.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <customconverters:BooleanToVisibilityConverter x:Key="CustomBoolToVisibilityConverter" True="Collapsed" False="Visible"/>
+    </local:BasePage.Resources>
+    <Grid Background="Transparent" Padding="50">
+        <SplitView
+            x:Name="EditGrid"            
+            DisplayMode="Inline"
+            PanePlacement="Right"
+            PaneBackground="{StaticResource InAppBackgroundAcrylicBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Name: " Margin="0, 0, 20, 20"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Width="200" Text="{Binding ViewModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,17"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Enrollment Audio: "/>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding Path=Recorded, Converter={StaticResource CustomBoolToVisibilityConverter}, Mode=OneWay}">
+                    <SymbolIcon Symbol="Cancel" Margin="10"/>
+                    <TextBlock Text="Not Recorded" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Visibility="{Binding Path=Recorded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <SymbolIcon Symbol="Accept" Margin="10"/>
+                    <TextBlock Text="Recorded" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="20,0,0,0" Content="New Recording" Click="NewRecording"/>
+            </Grid>
+            <SplitView.Pane>
+                <ContentPresenter ContentTemplate="{StaticResource RecordingPane}"/>
+            </SplitView.Pane>
+        </SplitView>
+    </Grid>
+</local:BasePage>

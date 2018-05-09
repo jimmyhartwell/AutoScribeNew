@@ -1,0 +1,350 @@
+﻿<ResourceDictionary
+    x:Class="Resources.NavigationViewHeaderTemplates"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWP.Resources"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:customconverters="using:UWP.Helpers"
+    xmlns:resources="using:UWP.Resources"
+    xmlns:viewmodels="using:AutoScribeClient.ViewModels"
+    xmlns:pages="using:UWP.View"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core">
+    <DataTemplate x:Key="ProtocolListPageNavigationViewHeader">
+        <Grid
+            Margin="24,36,0,0"
+            Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <ContentThemeTransition/>
+                </TransitionCollection>
+            </Grid.Transitions>
+
+            <TextBlock
+                Grid.Column="0"
+                FontSize="28"
+                Foreground="Black"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="Protocols"/>
+            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--<AutoSuggestBox
+                    Grid.Column="0"
+                    Style="{StaticResource NoBorderAutoSuggestBox}"
+                    Width="200"
+                    MinWidth="100"
+                    MaxWidth="500"
+                    Margin="10, 0, 0, 0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    PlaceholderText="Search"
+                    QueryIcon="Find"
+                    Visibility="Collapsed"
+                    Text="{Binding Path=Content.SearchTerm, ElementName=ContentFrame, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    >
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="QuerySubmitted">
+                            <core:InvokeCommandAction Command="{Binding Path=Content.Search_Command, ElementName=ContentFrame}"/>
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </AutoSuggestBox>-->
+                <CommandBar
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    DefaultLabelPosition="Right"
+                    Background="Transparent"
+                    >
+                    <AppBarSeparator VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <AppBarButton Label="Add" Icon="Add" ToolTipService.ToolTip="Add a new protocol" Command="{Binding Path=Content.Add_Command, ElementName=ContentFrame}"/>
+                    <AppBarButton Label="Refresh" Icon="Refresh" ToolTipService.ToolTip="Refresh protocol list" Command="{Binding Path=Content.Refresh_Command, ElementName=ContentFrame}"/>
+                    <!--<AppBarButton Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete protocols" Command="{Binding Path=Content.Delete_Command, ElementName=ContentFrame}"/>-->
+                </CommandBar>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="ProtocolPageNavigationViewHeader">
+        <Grid
+            Margin="24,36,0,0"
+            Background="Transparent">
+            <Grid.Resources>
+                <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                <customconverters:BooleanToVisibilityConverter x:Key="CustomBoolToVisibilityConverter" True="Collapsed" False="Visible"/>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <ContentThemeTransition/>
+                </TransitionCollection>
+            </Grid.Transitions>
+
+            <TextBlock
+                Grid.Column="0"
+                FontSize="28"
+                Foreground="Black"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="{Binding Path=Content.Header, ElementName=ContentFrame}"/>
+            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <AutoSuggestBox
+                    Grid.Column="0"
+                    Style="{StaticResource NoBorderAutoSuggestBox}"
+                    Width="200"
+                    MinWidth="100"
+                    MaxWidth="500"
+                    Margin="10, 0, 0, 0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    PlaceholderText="Search"
+                    QueryIcon="Find"
+                    Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay, Converter={StaticResource CustomBoolToVisibilityConverter}}"
+                    Text="{Binding Path=Content.SearchTerm, ElementName=ContentFrame, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    >
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="QuerySubmitted">
+                            <core:InvokeCommandAction Command="{Binding Path=Content.Search_Command, ElementName=ContentFrame}"/>
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </AutoSuggestBox>
+                <CommandBar
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    DefaultLabelPosition="Right"
+                    Background="Transparent"
+                    >
+                    <AppBarSeparator VerticalAlignment="Center" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay, Converter={StaticResource CustomBoolToVisibilityConverter}}"/>
+                    <AppBarButton Label="Info" ToolTipService.ToolTip="View protocol's info" Command="{Binding Path=Content.Info_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay, Converter={StaticResource CustomBoolToVisibilityConverter}}">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton Label="Refresh" Icon="Refresh" ToolTipService.ToolTip="Refresh this protocol" Command="{Binding Path=Content.Refresh_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay, Converter={StaticResource CustomBoolToVisibilityConverter}}"/>
+                    <AppBarButton Label="Edit" Icon="Edit" ToolTipService.ToolTip="Edit this protocol" Command="{Binding Path=Content.Edit_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay, Converter={StaticResource CustomBoolToVisibilityConverter}}"/>
+                    <AppBarButton Label="Save" Icon="Save" ToolTipService.ToolTip="Save this protocol" Command="{Binding Path=Content.Save_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay}"/>
+                    <AppBarButton Label="Cancel" Icon="Cancel" ToolTipService.ToolTip="Cancel editing" Command="{Binding Path=Content.Cancel_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay}"/>
+                    <AppBarButton Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete this protocol" Command="{Binding Path=Content.Delete_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay, Converter={StaticResource CustomBoolToVisibilityConverter}}"/>
+                </CommandBar>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="DefaultNavigationViewHeader">
+        <Grid
+            Margin="24,36,0,0"
+            Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                    FontSize="28"
+                    Foreground="Black"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Welcome"/>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="SpeakerListPageNavigationViewHeader">
+        <Grid
+            Margin="24,36,0,0"
+            Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <ContentThemeTransition/>
+                </TransitionCollection>
+            </Grid.Transitions>
+
+            <TextBlock
+                Grid.Column="0"
+                FontSize="28"
+                Foreground="Black"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="Speakers"/>
+            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--<AutoSuggestBox
+                    Grid.Column="0"
+                    Style="{StaticResource NoBorderAutoSuggestBox}"
+                    Width="200"
+                    MinWidth="100"
+                    MaxWidth="500"
+                    Margin="10, 0, 0, 0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    PlaceholderText="Search"
+                    QueryIcon="Find"
+                    Visibility="Collapsed"
+                    Text="{Binding Path=Content.SearchTerm, ElementName=ContentFrame, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    >
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="QuerySubmitted">
+                            <core:InvokeCommandAction Command="{Binding Path=Content.Search_Command, ElementName=ContentFrame}"/>
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </AutoSuggestBox>-->
+                <CommandBar
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    DefaultLabelPosition="Right"
+                    Background="Transparent"
+                    >
+                    <AppBarSeparator VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <AppBarButton Label="Add" Icon="Add" ToolTipService.ToolTip="Add a new speaker" Command="{Binding Path=Content.Add_Command, ElementName=ContentFrame}"/>
+                    <AppBarButton Label="Refresh" Icon="Refresh" ToolTipService.ToolTip="Refresh speaker list" Command="{Binding Path=Content.Refresh_Command, ElementName=ContentFrame}"/>
+                    <!--<AppBarButton Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete speakers" Command="{Binding Path=Content.Delete_Command, ElementName=ContentFrame}"/>-->
+                </CommandBar>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="SpeakerPageNavigationViewHeader">
+        <Grid
+            Margin="24,36,0,0"
+            Background="Transparent">
+            <Grid.Resources>
+                <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                <customconverters:BooleanToVisibilityConverter x:Key="CustomBoolToVisibilityConverter" True="Collapsed" False="Visible"/>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <ContentThemeTransition/>
+                </TransitionCollection>
+            </Grid.Transitions>
+
+            <TextBlock
+                Grid.Column="0"
+                FontSize="28"
+                Foreground="Black"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="{Binding Path=Content.Header, ElementName=ContentFrame}"/>
+            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <CommandBar
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    DefaultLabelPosition="Right"
+                    Background="Transparent"
+                    >
+                    <AppBarButton Label="Edit" Icon="Edit" ToolTipService.ToolTip="Edit this protocol" Command="{Binding Path=Content.Edit_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay, Converter={StaticResource CustomBoolToVisibilityConverter}}"/>
+                    <AppBarButton Label="Save" Icon="Save" ToolTipService.ToolTip="Save this protocol" Command="{Binding Path=Content.Save_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay}"/>
+                    <AppBarButton Label="Cancel" Icon="Cancel" ToolTipService.ToolTip="Cancel editing" Command="{Binding Path=Content.Cancel_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay}"/>
+                    <AppBarButton Label="Delete" Icon="Delete" ToolTipService.ToolTip="Delete this protocol" Command="{Binding Path=Content.Delete_Command, ElementName=ContentFrame}" Visibility="{Binding Path=Content.Editable, ElementName=ContentFrame, Mode=OneWay, Converter={StaticResource CustomBoolToVisibilityConverter}}"/>
+                </CommandBar>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="NewProtocolPageNavigationViewHeader">
+        <Grid
+            Margin="24,36,0,0"
+            Background="Transparent">
+            <Grid.Resources>
+                <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                <customconverters:BooleanToVisibilityConverter x:Key="CustomBoolToVisibilityConverter" True="Collapsed" False="Visible"/>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <ContentThemeTransition/>
+                </TransitionCollection>
+            </Grid.Transitions>
+
+            <TextBlock
+                Grid.Column="0"
+                FontSize="28"
+                Foreground="Black"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="New Protocol"/>
+            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <CommandBar
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    DefaultLabelPosition="Right"
+                    Background="Transparent"
+                    >
+                    <AppBarButton Label="Save" Icon="Save" ToolTipService.ToolTip="Save this protocol" Command="{Binding Path=Content.Save_Command, ElementName=ContentFrame}"/>
+                    <AppBarButton Label="Cancel" Icon="Cancel" ToolTipService.ToolTip="Cancel editing" Command="{Binding Path=Content.Cancel_Command, ElementName=ContentFrame}"/>
+                </CommandBar>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="NewSpeakerPageNavigationViewHeader">
+        <Grid
+            Margin="24,36,0,0"
+            Background="Transparent">
+            <Grid.Resources>
+                <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                <customconverters:BooleanToVisibilityConverter x:Key="CustomBoolToVisibilityConverter" True="Collapsed" False="Visible"/>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Transitions>
+                <TransitionCollection>
+                    <ContentThemeTransition/>
+                </TransitionCollection>
+            </Grid.Transitions>
+
+            <TextBlock
+                Grid.Column="0"
+                FontSize="28"
+                Foreground="Black"
+                Style="{StaticResource TitleTextBlockStyle}"
+                Text="New Speaker"/>
+            <Grid Grid.Column="1" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <CommandBar
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    DefaultLabelPosition="Right"
+                    Background="Transparent"
+                    >
+                    <AppBarButton Label="Save" Icon="Save" ToolTipService.ToolTip="Save this protocol" Command="{Binding Path=Content.Save_Command, ElementName=ContentFrame}"/>
+                    <AppBarButton Label="Cancel" Icon="Cancel" ToolTipService.ToolTip="Cancel editing" Command="{Binding Path=Content.Cancel_Command, ElementName=ContentFrame}"/>
+                </CommandBar>
+            </Grid>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,51 @@
+﻿<local:BasePage
+    x:Class="UWP.View.SpeakerListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWP.View"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:customconverters="using:UWP.Helpers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Name="Speakers">
+    <local:BasePage.Resources>
+        <CollectionViewSource x:Name="SpeakersSource" Source="{x:Bind ViewModel.Speakers}"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter"/>
+        <customconverters:BooleanToVisibilityConverter x:Key="CustomBoolToVisibilityConverter" True="Collapsed" False="Visible"/>
+    </local:BasePage.Resources>
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Style="{StaticResource ErrorBorderStyle}" Visibility="{x:Bind Path=ViewModel.HasError, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+            <TextBlock Text="{x:Bind ViewModel.Error, Mode=OneWay}" HorizontalAlignment="Center" Foreground="White"/>
+        </Border>
+        <ProgressRing Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ProgressRing" Width="50" Height="50" IsActive="True" Visibility="{x:Bind Path=ViewModel.IsReloading, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
+        <GridView Grid.Row="1" x:Name="SpeakerGrid" ItemsSource="{Binding Source={StaticResource SpeakersSource}}" ItemClick="ViewSpeaker_Click" IsItemClickEnabled="True" SelectionMode="Single" Visibility="{x:Bind Path=ViewModel.IsReloading, Converter={StaticResource CustomBoolToVisibilityConverter}, Mode=OneWay}">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid x:Name="SpeakerTile" PointerEntered="SpeakerTile_PointerEntered" PointerExited="SpeakerTile_PointerExited" Width="200" Height="120" Padding="15, 10, 0, 0" Background="{StaticResource InAppBackgroundAcrylicBrush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="{Binding Path=Name, Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}" FontSize="20"/>
+                        <StackPanel x:Name="SpeakerFunctions" Opacity="0.1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button Style="{StaticResource FunctionButtonStyle}" Click="EditSpeaker">
+                                <SymbolIcon Symbol="Edit"/>
+                            </Button>
+                            <Button Style="{StaticResource DeleteButtonStyle}" Click="DeleteSpeaker">
+                                <SymbolIcon Symbol="Delete"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </Grid>
+</local:BasePage>

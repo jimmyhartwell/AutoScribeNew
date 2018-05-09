@@ -10,7 +10,7 @@ namespace AutoScribeClient.ServerAccess {
         /// <summary>
         /// The access key of the app service
         /// </summary>
-        private const string MOBILE_SERVICE_ACCESS_KEY = "LOCAL_ACCESS_KEY"; //yMSZvAzB6Fo0AsuzQW8X2lkp91aRdJvA
+        private const string MOBILE_SERVICE_ACCESS_KEY = "LOCAL_ACCESS_KEY";
 
         /// <summary>
         /// Sends a request to the api

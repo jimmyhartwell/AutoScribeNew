@@ -14,7 +14,7 @@ namespace AutoScribeClient.ServerAccess {
         /// <summary>
         /// The uri of the app service
         /// </summary>
-        private const string MOBILE_SERVICE_URI = "http://localhost:59482/"; //https://autoscribe.azurewebsites.net/
+        private const string MOBILE_SERVICE_URI = "http://localhost:59482/";
         /// <summary>
         /// The language to use in all requests
         /// </summary>

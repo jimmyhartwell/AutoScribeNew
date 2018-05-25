@@ -27,6 +27,16 @@ namespace AutoScribeClient.ViewModels
         public virtual bool HasError { get; set; }
         public virtual string Error { get; set; }
 
-        
+        protected void SetError(string message)
+        {
+            HasError = true;
+            Error = message;
+        }
+
+        protected void ClearError()
+        {
+            HasError = false;
+            Error = "";
+        }
     }
 }

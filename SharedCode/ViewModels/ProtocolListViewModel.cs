@@ -20,17 +20,7 @@ namespace AutoScribeClient.ViewModels
         /// <summary>
         /// Protocol list to show.
         /// </summary>
-        private ObservableCollection<ProtocolViewModel> protocols;
-
-        /// <summary>
-        /// Command to create a new protocol.
-        /// </summary>
-        private ICommand createProtocolCommand;
-
-        /// <summary>
-        /// Command to delete an existing protocol.
-        /// </summary>
-        private ICommand deleteProtocolCommand;
+        private ObservableCollection<ProtocolViewModel> protocols;        
 
         private bool hasError;
 
@@ -65,8 +55,6 @@ namespace AutoScribeClient.ViewModels
             CanBeCancelled = false;
             OnSuccess = false;
             IsReloading = false;
-            //createProtocolCommand = new Command<ProtocolViewModel>(CreateProtocol);
-            //deleteProtocolCommand = new Command<ProtocolViewModel>(DeleteProtocol);
         }
 
         /// <summary>
@@ -84,16 +72,6 @@ namespace AutoScribeClient.ViewModels
         /// Protocol list to show.
         /// </summary>
         public ObservableCollection<ProtocolViewModel> Protocols { get => protocols; set => protocols = value; }
-
-        /// <summary>
-        /// Command to create a new protocol.
-        /// </summary>
-        public ICommand CreateProtocolCommand => createProtocolCommand;
-
-        /// <summary>
-        /// Command to delete an existing protocol.
-        /// </summary>
-        public ICommand DeleteProtocolCommand => deleteProtocolCommand;
 
         public override bool HasError {
             get => hasError;
@@ -202,7 +180,7 @@ namespace AutoScribeClient.ViewModels
                 ClearError();          
                 List<Protocol> pList = await ProtocolController.GetProtocolController().GetAllProtocolsAsync();                
                 return pList;
-            } catch (Exception e) {
+            } catch {
                 SetError("An error has occured while loading protocols. Please try again.");
             } finally {
                 IsReloading = false;   
@@ -222,18 +200,6 @@ namespace AutoScribeClient.ViewModels
                 Thread.Sleep(2000 - (int)stopwatch.ElapsedMilliseconds);
             }
             IsReloading = false;
-        }
-
-        private void SetError(string message)
-        {
-            HasError = true;
-            Error = message;
-        }
-
-        private void ClearError()
-        {
-            HasError = false;
-            Error = "";
         }
     }
 }

@@ -59,16 +59,6 @@ namespace AutoScribeClient.ViewModels {
         private bool isReloading;
 
         /// <summary>
-        /// Command to save after user has edited this protocol.
-        /// </summary>
-        private ICommand saveProtocolCommand;
-
-        /// <summary>
-        /// Command to reload this protocol from database.
-        /// </summary>
-        private ICommand reloadProtocolCommand;
-
-        /// <summary>
         /// Create a ViewModel using the data retrieved from server.
         /// </summary>
         /// <param name="data">Retrieved data.</param>
@@ -81,8 +71,6 @@ namespace AutoScribeClient.ViewModels {
             }
             Audio = new AudioViewModel();
             SearchEnabled = false;
-            //saveProtocolCommand = new Command(Save);
-            //reloadProtocolCommand = new Command(ReloadAsync);
         }
 
         /// <summary>
@@ -96,8 +84,6 @@ namespace AutoScribeClient.ViewModels {
             Audio = new AudioViewModel();
             InProcess = true;
             SearchEnabled = false;
-            //saveProtocolCommand = new Command(Save);
-            //reloadProtocolCommand = new Command(ReloadAsync);
         }
 
         /// <summary>
@@ -140,11 +126,6 @@ namespace AutoScribeClient.ViewModels {
                 }
             }
         }
-
-        /// <summary>
-        /// Command to save after user has edited this protocol.
-        /// </summary>
-        public ICommand SaveProtocolCommand => saveProtocolCommand;
 
         /// <summary>
         /// All speakers participating in this protocol.
@@ -239,11 +220,6 @@ namespace AutoScribeClient.ViewModels {
         }
 
         /// <summary>
-        /// Command to reload this protocol from database.
-        /// </summary>
-        public ICommand ReloadProtocolCommand => reloadProtocolCommand;
-
-        /// <summary>
         /// Indicator of whether this protocol is being reloaded.
         /// </summary>
         public bool IsReloading { get => isReloading;
@@ -264,7 +240,7 @@ namespace AutoScribeClient.ViewModels {
                 IsReloading = true;
                 await ProtocolController.GetProtocolController().UpdateProtocolAsync(Data);
             } catch {
-                Error = "Error occurs while updating this protocol, please try again";
+                SetError("Error occurs while updating this protocol, please try again");
             } finally {
                 IsReloading = false;
             }
@@ -283,7 +259,7 @@ namespace AutoScribeClient.ViewModels {
                     return;
                 }
                 if (Data.Status == ProtocolStatus.Error) {
-                    Error = "This protocol could not be transcribed.";
+                    SetError("This protocol could not be transcribed.");
                     return;
                 }
                 if (Sections == null) {
@@ -303,7 +279,7 @@ namespace AutoScribeClient.ViewModels {
                 }
             } catch {
                 InProcess = false;
-                Error = "Sections of this protocol could not be loaded, please try again.";
+                SetError("Sections of this protocol could not be loaded, please try again.");
             } finally {
                 IsReloading = false;
             }

@@ -48,21 +48,6 @@ namespace AutoScribeClient.ViewModels
         private bool isSaving;
 
         /// <summary>
-        /// Command to edit this speaker.
-        /// </summary>
-        private ICommand editCommand;
-
-        /// <summary>
-        /// Command to save this speaker after editing.
-        /// </summary>
-        private ICommand saveCommand;
-
-        /// <summary>
-        /// Command to cancel while editing.
-        /// </summary>
-        private ICommand cancelCommand;
-
-        /// <summary>
         /// Create a new ViewModel with speaker data retrieved from server.
         /// </summary>
         /// <param name="data">Retrieved data.</param>
@@ -116,21 +101,6 @@ namespace AutoScribeClient.ViewModels
         }
 
         /// <summary>
-        /// Command to edit this speaker.
-        /// </summary>
-        public ICommand EditCommand => editCommand;
-
-        /// <summary>
-        /// Command to save this speaker after editing.
-        /// </summary>
-        public ICommand SaveCommand => saveCommand;
-
-        /// <summary>
-        /// Command to cancel while editing.
-        /// </summary>
-        public ICommand CancelCommand => cancelCommand;
-
-        /// <summary>
         /// Data object for this ViewModel.
         /// </summary>
         public Speaker Data { get => data; set => data = value; }
@@ -139,18 +109,6 @@ namespace AutoScribeClient.ViewModels
         /// Indicator whether this speaker is newly added.
         /// </summary>
         public string NewlyAdded { get => newlyAdded; set => newlyAdded = value; }
-
-        /// <summary>
-        /// Error to show to user when there is one.
-        /// </summary>
-        public string Error { get => error;
-            set {
-                if (error != value) {
-                    error = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
 
         /// <summary>
         /// Indicator when the editing of this speaker is being saved.
@@ -186,15 +144,10 @@ namespace AutoScribeClient.ViewModels
                     await ProtocolListViewModel.GetProtocolListViewModel().GetAllProtocols();
 
                 } catch {
-                    //await Task.Run(() => {
-                    //    Error = "Error while updating speaker, please try again.";
-                    //    Thread.Sleep(3000);
-                    //    Error = "";
-                    //});
-                    //IsSaving = false;
+                    SetError("Error occurs while saving speaker. Please try again.");
                 }
             } else {
-                Error = "Name cannot be empty";
+                SetError("Name cannot be empty");
             }
         }
 

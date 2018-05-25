@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoScribeDataModel\AutoScribeDataModel\AutoScribeDataModel.csproj" />
+    <ProjectReference Include="..\..\AutoScribeDataModel\AutoScribeDataModel\AutoScribeDataModel.csproj" />
   </ItemGroup>
 
 </Project>

@@ -20,21 +20,6 @@ namespace AutoScribeClient.ViewModels
         /// All available speakers.
         /// </summary>
         private ObservableCollection<SpeakerViewModel> speakers;
-
-        /// <summary>
-        /// Command to create a speaker.
-        /// </summary>
-        private ICommand createSpeakerCommand;
-
-        /// <summary>
-        /// Command to delete a speaker.
-        /// </summary>
-        private ICommand deleteSpeakerCommand;
-
-        /// <summary>
-        /// Command to reload the speaker list.
-        /// </summary>
-        private ICommand reloadSpeakerListCommand;
         
         /// <summary>
         /// Error to show to user when there is one.
@@ -52,9 +37,6 @@ namespace AutoScribeClient.ViewModels
             ClearError();
             Speakers = new ObservableCollection<SpeakerViewModel>();
             AddViewModels();
-            //createSpeakerCommand = new Command<SpeakerViewModel>(CreateSpeaker);
-            //deleteSpeakerCommand = new Command<SpeakerViewModel>(DeleteSpeaker);
-            //reloadSpeakerListCommand = new Command(Reload);
         }
 
         public static SpeakerListViewModel GetSpeakerListViewModel() {
@@ -78,16 +60,6 @@ namespace AutoScribeClient.ViewModels
         }
 
         /// <summary>
-        /// Command to create a speaker.
-        /// </summary>
-        public ICommand CreateSpeakerCommand => createSpeakerCommand;
-
-        /// <summary>
-        /// Command to delete a speaker.
-        /// </summary>
-        public ICommand DeleteSpeakerCommand => deleteSpeakerCommand;
-
-        /// <summary>
         /// Error to show to user when there is one.
         /// </summary>
         public override string Error {
@@ -100,10 +72,6 @@ namespace AutoScribeClient.ViewModels
             }
         }
 
-        /// <summary>
-        /// Command to reload the speaker list.
-        /// </summary>
-        public ICommand ReloadSpeakerListCommand { get => reloadSpeakerListCommand; }
         public bool IsReloading { get => isReloading;
             set {
                 if (isReloading != value) {
@@ -185,18 +153,6 @@ namespace AutoScribeClient.ViewModels
                 Thread.Sleep(2000 - (int)stopwatch.ElapsedMilliseconds);
             }
             IsReloading = false;
-        }
-
-        private void SetError(string message)
-        {
-            HasError = true;
-            Error = message;
-        }
-
-        private void ClearError()
-        {
-            HasError = false;
-            Error = "";
         }
     }
 }

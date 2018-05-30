@@ -65,8 +65,7 @@ namespace UWP
                 Window.Current.Content = rootFrame;
             }
 
-            //ExtendAcrylicIntoTitleBar();
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            ExtendAcrylicIntoTitleBar();
 
             if (e.PrelaunchActivated == false) {
                 if (rootFrame.Content == null) {

@@ -38,25 +38,25 @@
             </Rectangle>
             <Rectangle x:Name="DarkOverlay" Fill="{StaticResource Black20}" Opacity="0.5"/>
         </Grid>
-        <Grid Background="Transparent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <Grid x:Name="AppTitleBar" Background="Transparent">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="LeftPaddingColumn" Width="0"/>
-                    <ColumnDefinition x:Name="RightPaddingColumn" Width="0"/>
-                </Grid.ColumnDefinitions>
-            </Grid>
+        <Grid x:Name="AppTitleBar" VerticalAlignment="Top" Height="32" Margin="48,0,48,0" Background="Transparent" Canvas.ZIndex="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="LeftPaddingColumn" Width="*"/>
+                <ColumnDefinition x:Name="Title" Width="Auto"/>
+                <ColumnDefinition x:Name="RightPaddingColumn" Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="1" Text="AutoScribe" VerticalAlignment="Center"/>
         </Grid>
         <NavigationView
             x:Name="NavView"
             ItemInvoked="NavView_ItemInvoked"
             Loading="NavView_Loading"
             Loaded="NavView_Loaded"
-            IsSettingsVisible="False">
+            IsSettingsVisible="False"
+            OpenPaneLength="200"
+            BackRequested="NavView_BackRequested"
+            PaneTitle="AutoScribe"
+            CompactModeThresholdWidth="600"
+            Canvas.ZIndex="0">
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Uid="HomeNavItem" Content="Home" Tag="home">
                     <NavigationViewItem.Icon>
@@ -82,7 +82,26 @@
                     </TransitionCollection>
                 </Frame.ContentTransitions>
             </Frame>
-
         </NavigationView>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="600"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AppTitleBar.Margin" Value="48,0,48,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="AppTitleBar.Margin" Value="96,0,96,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

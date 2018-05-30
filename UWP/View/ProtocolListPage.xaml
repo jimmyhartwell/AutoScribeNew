@@ -32,7 +32,7 @@
             </ListView>
             <MenuFlyoutSeparator/>-->
             <Border Style="{StaticResource ErrorBorderStyle}" Visibility="{x:Bind Path=ViewModel.HasError, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                <TextBlock Text="{x:Bind ViewModel.Error, Mode=OneWay}" HorizontalAlignment="Center" Foreground="White"/>
+                <controls:AnimatedTextBlock Text="{x:Bind ViewModel.Error, Mode=OneWay}" HorizontalAlignment="Center" Foreground="White"/>
             </Border>
             <GridView x:Name="ProtocolGrid" ItemsSource="{Binding Source={StaticResource ProtocolsSource}}" ItemClick="ViewProtocol_Click" IsItemClickEnabled="True" SelectionMode="Single">
                 <GridView.ItemTemplate>

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:UWP.View"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:controls="using:UWP.Controls"
     xmlns:customconverters="using:UWP.Helpers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -21,7 +22,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Style="{StaticResource ErrorBorderStyle}" Visibility="{x:Bind Path=ViewModel.HasError, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-            <TextBlock Text="{x:Bind ViewModel.Error, Mode=OneWay}" HorizontalAlignment="Center" Foreground="White"/>
+            <controls:AnimatedTextBlock Text="{x:Bind ViewModel.Error, Mode=OneWay}" HorizontalAlignment="Center" Foreground="White"/>
         </Border>
         <ProgressRing Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ProgressRing" Width="50" Height="50" IsActive="True" Visibility="{x:Bind Path=ViewModel.IsReloading, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
         <GridView Grid.Row="1" x:Name="SpeakerGrid" ItemsSource="{Binding Source={StaticResource SpeakersSource}}" ItemClick="ViewSpeaker_Click" IsItemClickEnabled="True" SelectionMode="Single" Visibility="{x:Bind Path=ViewModel.IsReloading, Converter={StaticResource CustomBoolToVisibilityConverter}, Mode=OneWay}">

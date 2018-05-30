@@ -49,12 +49,12 @@ namespace UWP
             // Hide default title bar.
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             ApplicationViewTitleBar appTitleBar = ApplicationView.GetForCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = false;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
             appTitleBar.ButtonBackgroundColor = appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             UpdateTitleBarLayout(coreTitleBar);
 
             // Set XAML element as a draggable region.
-            //Window.Current.SetTitleBar(AppTitleBar);
+            Window.Current.SetTitleBar(AppTitleBar);
 
             // Register a handler for when the size of the overlaid caption control changes.
             // For example, when the app moves to a screen with a different DPI.
@@ -70,7 +70,6 @@ namespace UWP
             ContentFrame.DataContextChanged += SetNavViewHeaderDataContext;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) => On_BackRequested();
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
@@ -82,8 +81,8 @@ namespace UWP
         {
             // Get the size of the caption controls area and back button 
             // (returned in logical pixels), and move your content around as necessary.
-            LeftPaddingColumn.Width = new GridLength(coreTitleBar.SystemOverlayLeftInset);
-            RightPaddingColumn.Width = new GridLength(coreTitleBar.SystemOverlayRightInset);
+            //LeftPaddingColumn.Width = new GridLength(coreTitleBar.SystemOverlayLeftInset);
+            //RightPaddingColumn.Width = new GridLength(coreTitleBar.SystemOverlayRightInset);
 
             // Update title bar control size as needed to account for system size changes.
             AppTitleBar.Height = coreTitleBar.Height;
@@ -153,10 +152,10 @@ namespace UWP
             }
         }
 
-        //private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        //{
-        //    On_BackRequested();
-        //}
+        private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            On_BackRequested();
+        }
 
         private void BackInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
@@ -200,11 +199,9 @@ namespace UWP
 
                 String stringTag = lookup[ContentFrame.SourcePageType];
                 if (stringTag == "protocol" || stringTag == "speaker" || stringTag == "newprotocol" || stringTag == "newspeaker" || stringTag == "settings") {
-                    //NavView.IsBackEnabled = true;
-                    //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                    NavView.IsBackEnabled = true;
                 } else {
-                    //NavView.IsBackEnabled = false;
-                    //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                    NavView.IsBackEnabled = false;
                 }
                 LoadHeader();
                 
